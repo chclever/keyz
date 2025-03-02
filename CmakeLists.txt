@@ -2,4 +2,4 @@ project(Keyz)
 
 cmake_minimum_required(VERSION 3.11)
 
-add_executable(keyz_out libs/includes.h main.cpp)
+add_executable(keyz_out libs/includes.h libs/core.h libs/core.cpp main.cpp)
