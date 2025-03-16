@@ -19,7 +19,7 @@ struct GetPasswdListResponse : ResponseTemplate {
 
 class Core {
 public:
-    GetResponse get(GetRequest data); // Отправка пароля пользователю (дехеш). 
-    AddResponse add(AddRequest data); // Добавления пароля в базу.
-    GetPasswdListResponse get_passwords(std::string userid); // Получаем все пароли.
+    AddResponse add_user_password(AddRequest data); // Добавления пароля в базу.
+    GetResponse get_user_password(GetRequest data); // Отправка пароля пользователю (дехеш). 
+    GetPasswdListResponse get_user_passwords(std::string userid); // Получаем все пароли.
 };
