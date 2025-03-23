@@ -3,52 +3,44 @@
 using namespace nlohmann;
 
 // Добавляем пароль пользователя в файл
-AddResponse Core::add_user_password(AddRequest data) {
-    std::ofstream user_db("base.json", std::ios::app);
+AddResponse Core::add_user_password(const AddRequest& data) {
     
-    json user_template = {
-        {   data.userid, {
+    AddResponse r;
+    r.code = 200;
+    r.comment = "Successful!!!";
+
+    std::ifstream user_db_read("base.json");
+
+    json current_data;
+    
+    if (user_db_read.is_open()) {
+        current_data = json::parse(user_db_read);
+        user_db_read.close();
+    } else {
+        r.code = 501;
+        r.comment = "[Error] Write data";
+
+        return r;
+    }
+
+    std::ofstream user_db_write("base.json");
+    
+    if (user_db_write.is_open()) {
+    
+            current_data[data.userid] = {
                 {"platform",    data.platform},
                 {"login",       data.login},
                 {"password",    data.password}
-        }} 
-    };
-
-    // std::cout << user_template.dump() << std::endl;
-    if (user_db.is_open()) {
-
-        user_db << user_template.dump() << std::endl;
-
-        std::cout << "Finished." << std::endl;
-        
-        user_db.close();
-    } else {
-        std::cout << "Error detected!" << std::endl;
-    }
-}
-
-/*
-base.json:
-
-userid : [{
-    <platform>: "",
+            };
     
-    <login>: "",
-    <password>: "",
-}]
+            user_db_write << current_data.dump(4) << std::endl;
+            user_db_write.close();
+    } else {
+        r.code = 502;
+        r.comment = "[Error] Write data";
+        
+        return r;
+    }
 
-{
-    "STR0rBiSCv1ue9MIKjUQ8qkhpx1WL75R4KxaFc9C" : [{
-        "platform": "Steam",
-        
-        "login": "tefteli2011",
-        "password": "supersecret123"
-    }, {
-        "platform": "EpicGames",
-        
-        "login": "tefteli1800",
-        "password": "supersecret12334"
-    }]
+    return r;
 }
-
-*/

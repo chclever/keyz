@@ -12,16 +12,27 @@ std::string time_now() {
 
 int main() {
     auto core = new Core();
-    std::cout << "Hi: " << time_now() << std::endl;
+    std::cout << "Started at: " << time_now() << std::endl;
 
     AddRequest r;
+    AddRequest n;
 
+    n.userid = "ZXCZXCZXCZXCZXCZXCXZC";
+    n.platform = "Steam";
+    n.login = "Salat";
+    n.password = "123321";
+    
     r.userid = "QAZXSWEDCVFRTGBNHYUJMKIOL";
     r.platform = "EpicGames";
     r.login = "Tefteli";
-    r.password = "kjasdl.asjd;aslkdjsa;ljds;alkjd;lskj";
+    r.password = "21321313131";
+    
+    auto ret = core->add_user_password(r);
+    auto ret1 = core->add_user_password(n);
+    
+    std::cout << "[AUP]: Status -> " << ret.code + "Comma -> " << ret.comment << std::endl;
+    std::cout << "[AUP]: Status -> " << ret1.code + "Comma -> " << ret1.comment << std::endl;
 
-    core->add_user_password(r);
-
+    std::cout << "Finished" << std::endl;
     return 0;
 }
