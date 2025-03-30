@@ -6,9 +6,6 @@ using namespace nlohmann;
 AddResponse Core::add_user_password(const AddRequest& data) {
     
     AddResponse r;
-    r.code = 200;
-    r.comment = "Successful!!!";
-
     std::ifstream user_db_read("base.json");
 
     json current_data;
@@ -25,16 +22,25 @@ AddResponse Core::add_user_password(const AddRequest& data) {
 
     std::ofstream user_db_write("base.json");
     
+    // НЕ ЗАБЫТЬ УБРАТЬ ДУБЛИКАТЫ
+
     if (user_db_write.is_open()) {
     
-            current_data[data.userid] = {
+            json user_data = {
                 {"platform",    data.platform},
                 {"login",       data.login},
                 {"password",    data.password}
             };
+
+            if (current_data.contains(data.userid)) {
+                current_data[data.userid].push_back(user_data);
+            } else {
+                current_data[data.userid] = { user_data };
+            }
     
             user_db_write << current_data.dump(4) << std::endl;
             user_db_write.close();
+
     } else {
         r.code = 502;
         r.comment = "[Error] Write data";
@@ -42,5 +48,18 @@ AddResponse Core::add_user_password(const AddRequest& data) {
         return r;
     }
 
+    r.code = 200;
+    r.comment = "Successful!!!";
+
     return r;
 }
+
+// GetResponse Core::get_user_password(const GetRequest& data) {
+// }
+
+/* GetUserPassword : 
+*/ 
+
+
+// * -> 0xASDASD
+// & -> <znacheniye>

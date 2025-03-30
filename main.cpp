@@ -30,9 +30,17 @@ int main() {
     auto ret = core->add_user_password(r);
     auto ret1 = core->add_user_password(n);
     
-    std::cout << "[AUP]: Status -> " << ret.code + "Comma -> " << ret.comment << std::endl;
-    std::cout << "[AUP]: Status -> " << ret1.code + "Comma -> " << ret1.comment << std::endl;
+    r.userid = "QAZXSWEDCVFRTGBNHYUJMKIOL";
+    r.platform = "Steam ";
+    r.login = "Testlogin";
+    r.password = "asdqwe";
+    
+    auto ret2 = core->add_user_password(r);
 
+    std::cout << "[AUP]: Statusek -> " << ret.code << " Comma -> " << ret.comment << std::endl;
+    std::cout << "[AUP]: Status -> " << ret1.code << " Comma -> " << ret1.comment << std::endl;
+
+    std::cout << "[AUP]: Status -> " << ret2.code << " Comma -> " << ret2.comment << std::endl;
     std::cout << "Finished" << std::endl;
     return 0;
 }
