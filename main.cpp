@@ -9,6 +9,7 @@ std::string time_now() {
     return formated_time;
 }
 
+// .add <id> <pl> <login> <pass> | https://github.com/chclever/FirstRepository/blob/master/Split/Split.cpp
 
 int main() {
     auto core = new Core();
@@ -33,7 +34,7 @@ int main() {
     r.userid = "QAZXSWEDCVFRTGBNHYUJMKIOL";
     r.platform = "Steam ";
     r.login = "Testlogin";
-    r.password = "asdqwe";
+    r.password = "Bobrito";
     
     auto ret2 = core->add_user_password(r);
 

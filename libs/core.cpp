@@ -25,7 +25,8 @@ AddResponse Core::add_user_password(const AddRequest& data) {
     // НЕ ЗАБЫТЬ УБРАТЬ ДУБЛИКАТЫ
 
     if (user_db_write.is_open()) {
-    
+            bool is_ud_found = false;
+        
             json user_data = {
                 {"platform",    data.platform},
                 {"login",       data.login},
@@ -33,11 +34,30 @@ AddResponse Core::add_user_password(const AddRequest& data) {
             };
 
             if (current_data.contains(data.userid)) {
-                current_data[data.userid].push_back(user_data);
-            } else {
+
+                std::cout << "Data from ID: " << data.login << std::endl;
+
+                for (auto &item : current_data[data.userid]) {
+
+                    if ( user_data.at("login") == item.at("login") && user_data.at("platform") == item.at("platform")) {
+
+                        item.at("password") = user_data.at("password");
+
+                        is_ud_found = true;
+
+                    }
+                }
+
+                if (!is_ud_found) {
+                    current_data[data.userid].push_back(user_data);
+                }
+                
+            }
+
+            else {
                 current_data[data.userid] = { user_data };
             }
-    
+            
             user_db_write << current_data.dump(4) << std::endl;
             user_db_write.close();
 
