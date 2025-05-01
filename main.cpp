@@ -9,6 +9,31 @@ std::string time_now() {
     return formated_time;
 }
 
+void simple_menu() {
+
+    struct cmd_input_data
+    {
+        std::string command;
+        std::string uid;
+        std::string uplatform;
+        std::string ulogin;
+        std::string upass;
+    };
+    
+    while (true)    {
+        
+        std::string n;
+        std::cout << "[C]: Enter command: ";
+        std::cin >> n;
+
+        // split
+
+        if (n == "exit") {exit(0);}
+        else {std::cout << "[E]: Command was ignored, sorry" << std::endl;};
+    }
+    
+}
+
 // .add <id> <pl> <login> <pass> | https://github.com/chclever/FirstRepository/blob/master/Split/Split.cpp
 
 int main() {
@@ -38,10 +63,16 @@ int main() {
     
     auto ret2 = core->add_user_password(r);
 
-    std::cout << "[AUP]: Statusek -> " << ret.code << " Comma -> " << ret.comment << std::endl;
-    std::cout << "[AUP]: Status -> " << ret1.code << " Comma -> " << ret1.comment << std::endl;
+    std::cout << "[INFO]: " << ret.code << " -> " << ret.comment << std::endl;
+    std::cout << "[INFO]: " << ret1.code << " -> " << ret1.comment << std::endl;
 
-    std::cout << "[AUP]: Status -> " << ret2.code << " Comma -> " << ret2.comment << std::endl;
-    std::cout << "Finished" << std::endl;
+    std::cout << "[INFO]: " << ret2.code << " -> " << ret2.comment << std::endl;
+    std::cout << "\n******\n[INFO] Finished." << std::endl;
+
+    std::cout << "Starting menu..." << std::endl;
+
+
+    simple_menu();
+
     return 0;
 }
