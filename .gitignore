@@ -1,9 +1,7 @@
-build
-
 .vscode
 
 .out
 .o
 .cmake
 
-Makefilebuild/
+build/
