@@ -1,0 +1,5 @@
+/home/fiero/Рабочий стол/keyz/build/CMakeFiles/keyz_out.dir
+/home/fiero/Рабочий стол/keyz/build/CMakeFiles/edit_cache.dir
+/home/fiero/Рабочий стол/keyz/build/CMakeFiles/rebuild_cache.dir
+/home/fiero/Рабочий стол/keyz/build/_deps/json-build/CMakeFiles/edit_cache.dir
+/home/fiero/Рабочий стол/keyz/build/_deps/json-build/CMakeFiles/rebuild_cache.dir
