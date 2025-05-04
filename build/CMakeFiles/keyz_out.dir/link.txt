@@ -1,1 +1,0 @@
-/usr/bin/g++ -Wl,--dependency-file=CMakeFiles/keyz_out.dir/link.d CMakeFiles/keyz_out.dir/libs/core.cpp.o CMakeFiles/keyz_out.dir/main.cpp.o -o keyz_out
