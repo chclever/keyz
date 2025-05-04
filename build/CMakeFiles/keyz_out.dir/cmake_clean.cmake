@@ -1,4 +1,5 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/keyz_out.dir/link.d"
   "CMakeFiles/keyz_out.dir/libs/core.cpp.o"
   "CMakeFiles/keyz_out.dir/libs/core.cpp.o.d"
   "CMakeFiles/keyz_out.dir/main.cpp.o"

@@ -10,6 +10,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/home/fiero/Рабочий стол/keyz/libs/core.cpp" "CMakeFiles/keyz_out.dir/libs/core.cpp.o" "gcc" "CMakeFiles/keyz_out.dir/libs/core.cpp.o.d"
   "/home/fiero/Рабочий стол/keyz/main.cpp" "CMakeFiles/keyz_out.dir/main.cpp.o" "gcc" "CMakeFiles/keyz_out.dir/main.cpp.o.d"
+  "" "keyz_out" "gcc" "CMakeFiles/keyz_out.dir/link.d"
   )
 
 # Targets to which this target links which contain Fortran sources.
