@@ -2,19 +2,34 @@
 
 using namespace nlohmann;
 
+json Core::read_base() {
+    std::ifstream user_db_read("base.json");
+
+    json current_data;
+
+    if (user_db_read.is_open()) {
+        current_data = json::parse(user_db_read);
+        
+        user_db_read.close();
+    } else {
+        throw std::runtime_error("[X]: Error reading the database.");
+    }
+
+    return current_data;
+}
+
 AddResponse Core::add_user_password(const AddRequest& data) {
     
     AddResponse r;
     std::ifstream user_db_read("base.json");
 
     json current_data;
-    
-    if (user_db_read.is_open()) {
-        current_data = json::parse(user_db_read);
-        user_db_read.close();
-    } else {
+
+    try {
+        current_data = this->read_base();
+    } catch (const std::exception& e) {
         r.code = 501;
-        r.comment = "[Error] Write data";
+        r.comment = e.what();
         return r;
     }
 
@@ -55,4 +70,37 @@ AddResponse Core::add_user_password(const AddRequest& data) {
     user_db_write.close();
 
     return r;
+}
+
+GetResponse Core::get_user_password(const GetRequest& data) {
+    GetResponse r;
+
+    bool is_ud_found = false;
+
+    json current_data;
+
+    try {
+        current_data = this->read_base();
+    } catch (const std::exception& e) {
+        r.code = 501;
+        r.comment = e.what();
+        return r;
+    }
+    
+    for (auto &item : current_data[data.userid]) {
+        if ( data.login == item.at("login").get<std::string>() && data.platform == item.at("platform").get<std::string>() ) {
+            r.code = 200;
+            r.comment = "Passwd found!";
+            r.password = item.at("password");
+            is_ud_found = true;
+        }
+    }
+
+    if (!is_ud_found) {
+        r.code = 404;
+        r.comment = "Passwd not found!";
+        r.password = "?";
+    }
+
+    return r;   
 }

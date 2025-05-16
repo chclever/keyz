@@ -19,7 +19,9 @@ struct GetPasswdListResponse : ResponseTemplate {
 
 class Core {
 public:
-    AddResponse add_user_password(const AddRequest& data); // Добавления пароля в базу.
-    GetResponse get_user_password(const GetRequest& data); // Отправка пароля пользователю (дехеш). 
-    GetPasswdListResponse get_user_passwords(std::string userid); // Получаем все пароли.
+    AddResponse add_user_password(const AddRequest& data);                           // Добавления пароля в базу.             //
+    GetResponse get_user_password(const GetRequest& data);                          // Отправка пароля пользователю (дехеш). //
+    GetPasswdListResponse get_user_passwords(std::string userid);                  // Получаем все пароли.                  //
+private:
+    nlohmann::json read_base();
 };

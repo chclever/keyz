@@ -19,7 +19,7 @@ void simple_menu() {
         std::string ulogin;
         std::string upass;
     };
-    
+
     while (true)    {
         
         std::string n;
@@ -42,6 +42,7 @@ int main() {
 
     AddRequest r;
     AddRequest n;
+    GetRequest s;
 
     n.userid = "ZXCZXCZXCZXCZXCZXCXZC";
     n.platform = "Steam";
@@ -53,6 +54,11 @@ int main() {
     r.login = "Tefteli";
     r.password = "21321313131";
     
+    s.userid = "QAZXSWEDCVFRTGBNHYUJMKIOL";
+    s.login = "Tefteli";
+    s.platform = "EpicGames";
+    
+
     auto ret = core->add_user_password(r);
     auto ret1 = core->add_user_password(n);
     
@@ -62,16 +68,20 @@ int main() {
     r.password = "Bobrito";
     
     auto ret2 = core->add_user_password(r);
+    // GetResponse
+    auto ret3 = core->get_user_password(s);
 
-    std::cout << "[INFO]: " << ret.code << " -> " << ret.comment << std::endl;
-    std::cout << "[INFO]: " << ret1.code << " -> " << ret1.comment << std::endl;
+    std::cout << "- AddResponse | [INFO]: " << ret.code << " -> " << ret.comment << std::endl;
+    std::cout << "- AddResponse | [INFO]: " << ret1.code << " -> " << ret1.comment << std::endl;
 
-    std::cout << "[INFO]: " << ret2.code << " -> " << ret2.comment << std::endl;
+    std::cout << "- AddResponse | [INFO]: " << ret2.code << " -> " << ret2.comment << std::endl;
+    std::cout << "- GetResponse | [INFO]: " << ret3.code << " -> " << ret3.comment << " Passwd: " << ret3.password << std::endl;
+
     std::cout << "\n******\n[INFO] Finished." << std::endl;
 
     std::cout << "Starting menu..." << std::endl;
 
-
+    
     simple_menu();
 
     return 0;
