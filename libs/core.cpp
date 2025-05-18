@@ -36,7 +36,7 @@ AddResponse Core::add_user_password(const AddRequest& data) {
     std::ofstream user_db_write("base.json");
 
     r.code = 200;
-    r.comment = "Successful!!!";
+    r.comment = "Successful";
 
     if (!user_db_write.is_open()) {
         r.code = 502;
@@ -103,4 +103,45 @@ GetResponse Core::get_user_password(const GetRequest& data) {
     }
 
     return r;   
-}
+}  
+
+GetPasswdListResponse Core::get_user_passwords(std::string userid) {
+    GetPasswdListResponse r;
+
+    bool is_ud_found = false;
+
+    json current_data;
+
+    r.code = 200;
+    r.comment = "Successful ) ";
+    r.password_data = {}; 
+
+    try {
+        current_data = this->read_base();
+    } catch (const std::exception& e) {
+        r.code = 501;
+        r.comment = e.what();
+        return r;
+    }
+
+    for(auto &item : current_data[userid]) {
+        std::cout << item << " item." << std::endl;
+        r.password_data.push_back(item.at("password"));
+        std::cout << "[JSON] Password found: " << item .at("password") << std::endl;
+        r.comment = "found.";
+
+        std::cout << "[JSON]: " << userid << " Item: " << item << std::endl;
+
+        std::cout << item.at("password") << " < " << std::endl;
+        r.comment = item.at("password");
+    } 
+
+    for (auto &item : current_data[userid]) {
+        if (item.at("password")) {
+            std::cout << "Item: " << item << std::endl;
+        }   
+    }
+    
+
+    return r; 
+}   

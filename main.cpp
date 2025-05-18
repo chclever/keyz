@@ -43,6 +43,7 @@ int main() {
     AddRequest r;
     AddRequest n;
     GetRequest s;
+    GetPasswdListResponse gs;
 
     n.userid = "ZXCZXCZXCZXCZXCZXCXZC";
     n.platform = "Steam";
@@ -58,7 +59,10 @@ int main() {
     s.login = "Tefteli";
     s.platform = "EpicGames";
     
+    auto ret_get = core->get_user_passwords(r.userid);
 
+    std::cout << " \n- GetPasswdListResponse [INFO]: r.userid: ?" << ret_get.code << " Comment: " << ret_get.comment << std::endl;
+    
     auto ret = core->add_user_password(r);
     auto ret1 = core->add_user_password(n);
     

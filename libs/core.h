@@ -14,7 +14,7 @@ struct AddResponse : ResponseTemplate {};
 struct AddRequest : User, Password {};  
 
 struct GetPasswdListResponse : ResponseTemplate {
-    std::vector<PasswordInfo> password_data; // Все строки в файле.
+    std::vector<std::string> password_data; // Все строки в файле.
 };
 
 class Core {
