@@ -105,7 +105,7 @@ GetResponse Core::get_user_password(const GetRequest& data) {
     return r;   
 }  
 
-GetPasswdListResponse Core::get_user_passwords(std::string userid) {
+GetPasswdListResponse Core::get_user_data(std::string userid) {
     GetPasswdListResponse r;
 
     bool is_ud_found = false;
@@ -113,7 +113,7 @@ GetPasswdListResponse Core::get_user_passwords(std::string userid) {
     json current_data;
 
     r.code = 200;
-    r.comment = "Successful ) ";
+    r.comment = "Successful";
     r.password_data = {}; 
 
     try {
@@ -124,24 +124,16 @@ GetPasswdListResponse Core::get_user_passwords(std::string userid) {
         return r;
     }
 
-    for(auto &item : current_data[userid]) {
-        std::cout << item << " item." << std::endl;
-        r.password_data.push_back(item.at("password"));
-        std::cout << "[JSON] Password found: " << item .at("password") << std::endl;
-        r.comment = "found.";
-
-        std::cout << "[JSON]: " << userid << " Item: " << item << std::endl;
-
-        std::cout << item.at("password") << " < " << std::endl;
-        r.comment = item.at("password");
-    } 
 
     for (auto &item : current_data[userid]) {
-        if (item.at("password")) {
-            std::cout << "Item: " << item << std::endl;
-        }   
+        
+        PasswordInfo datas = {
+             .login=item.at("login"),
+             .platform = item.at("platform")
+        };
+        // std::cout << "[JSON] Password: " << item << std::endl;
+        r.password_data.push_back(datas);
     }
     
-
     return r; 
 }   

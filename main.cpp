@@ -58,11 +58,7 @@ int main() {
     s.userid = "QAZXSWEDCVFRTGBNHYUJMKIOL";
     s.login = "Tefteli";
     s.platform = "EpicGames";
-    
-    auto ret_get = core->get_user_passwords(r.userid);
 
-    std::cout << " \n- GetPasswdListResponse [INFO]: r.userid: ?" << ret_get.code << " Comment: " << ret_get.comment << std::endl;
-    
     auto ret = core->add_user_password(r);
     auto ret1 = core->add_user_password(n);
     
@@ -80,11 +76,20 @@ int main() {
 
     std::cout << "- AddResponse | [INFO]: " << ret2.code << " -> " << ret2.comment << std::endl;
     std::cout << "- GetResponse | [INFO]: " << ret3.code << " -> " << ret3.comment << " Passwd: " << ret3.password << std::endl;
+    
+    auto ret_get = core->get_user_data(n.userid);
 
+    for (auto &item : ret_get.password_data) { 
+        std::cout << "- GetPasswdListResponse | [INFO]: " << "Login: " << item.login << " Platform: " << item.platform  << std::endl;
+    }
+
+    std::cout << "- GetPasswdListResponse | [INFO]: Code: " << ret_get.code << " Comment: " << ret_get.comment << std::endl;
+    
     std::cout << "\n******\n[INFO] Finished." << std::endl;
 
     std::cout << "Starting menu..." << std::endl;
 
+    
     
     simple_menu();
 
