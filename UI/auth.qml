@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Window
 import QtQuick.Controls 2.15
+import Controller 1.0
 
 Window {
     id: window
@@ -100,6 +101,10 @@ Window {
 
             onClicked: {
                 console.log("Нажата кнопка 'Войти'")
+                controller.handleLogin(textInput.text)
+                
+                console.log(textInput.text)
+                
                 // Можно добавить:
                 // loginButton.enabled = false // Блокировка кнопки после нажатия
                 // authLogic() // Вызов функции авторизации

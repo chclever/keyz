@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>UI/auth.qml</file>
+        <file>UI/main.qml</file>
+    </qresource>
+</RCC>
