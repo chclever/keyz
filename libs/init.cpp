@@ -60,6 +60,7 @@ void init_main() {
     s.login = "Tefteli";
     s.platform = "EpicGames";
 
+
     auto ret = core->add_user_password(r);
     auto ret1 = core->add_user_password(n);
     

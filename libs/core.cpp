@@ -12,7 +12,7 @@ json Core::read_base() {
         
         user_db_read.close();
     } else {
-        throw std::runtime_error("[X]: Error reading the database.");
+        throw std::runtime_error("Error reading the database.");
     }
 
     return current_data;
@@ -40,7 +40,7 @@ AddResponse Core::add_user_password(const AddRequest& data) {
 
     if (!user_db_write.is_open()) {
         r.code = 502;
-        r.comment = "[Error] Write data";
+        r.comment = "Error write data";
         return r;
     }
 
@@ -124,6 +124,10 @@ GetPasswdListResponse Core::get_user_data(std::string userid) {
         return r;
     }
 
+    if ( current_data[userid].size() == 0 ) {
+        r.code = 404;
+        r.comment = "Not found";
+    }
 
     for (auto &item : current_data[userid]) {
         

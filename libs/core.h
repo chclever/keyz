@@ -1,3 +1,6 @@
+#ifndef CORE_H
+#define CORE_H
+
 #include "includes.h"
 
 // include structures
@@ -25,3 +28,5 @@ public:
 private:
     nlohmann::json read_base();
 };
+
+#endif
