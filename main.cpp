@@ -16,12 +16,11 @@ int main(int argc, char *argv[]) {
     user_admin.password = "admin123";
     user_admin.platform = "linux-ssh-server";
 
-    auto register_admin = core->add_user_password(user_admin);
+    auto register_admin = core->add_user_password(user_admin);  
 
     QGuiApplication app(argc, argv);
     QQmlApplicationEngine engine;
 
-    qmlRegisterType<Controller>("Controller", 1, 0, "Controller");
     
     auto controller = new Controller(*core);
 
@@ -29,4 +28,4 @@ int main(int argc, char *argv[]) {
     
     engine.load(QUrl("qrc:/UI/auth.qml")); 
     return app.exec();
-}
+}   

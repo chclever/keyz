@@ -1,7 +1,6 @@
 import QtQuick
 import QtQuick.Window
 import QtQuick.Controls 2.15
-import Controller 1.0
 
 Window {
     id: window
@@ -10,6 +9,30 @@ Window {
     visible: true
     color: "#000000"
     title: qsTr("AuthMenu | KeyzBeta")
+
+    Component.onCompleted: {
+        // Подключаем сигналы контроллера
+        if (typeof controller !== 'undefined') {
+            controller.sendError.connect(function(errorCode, errorMessage) {
+                console.log("Ошибка:", errorCode, errorMessage);
+                errorText.text = "Ошибка " + errorCode + ": " + errorMessage;
+            });
+
+            controller.sendLogin.connect(function(login){
+                console.log("Успешный вход:", login);
+                stackView.push("main.qml");
+            })
+            
+        } else {
+            console.error("Controller is not defined!");
+        }
+    }
+
+    StackView {
+        id: stackView
+        anchors.fill: parent
+        initialItem: mainColumn
+    }
 
     Column {
         id: mainColumn
@@ -33,10 +56,10 @@ Window {
         Rectangle {
             id: inputWrapper
             width: parent.width
-            height: 112
+            height: 137
             color: "transparent"
             radius: 18
-            border.color: "gray"
+            border.color: textInput.activeFocus ? "#6A5ACD" : "gray"
             border.width: 2
 
             TextInput {
@@ -53,6 +76,17 @@ Window {
                 font.bold: true
                 font.family: "Verdana"
                 font.weight: Font.DemiBold
+                focus: true
+
+                onTextChanged: {
+                    if (errorText.text !== "") {
+                        errorText.text = "";
+                    }
+                }
+
+                onAccepted: {
+                    loginButton.clicked();
+                }
             }
 
             Text {
@@ -60,7 +94,7 @@ Window {
                 anchors.fill: parent
                 anchors.margins: 15
                 text: "UserID"
-                color: "#ffffff"
+                color: "#666666"
                 font: textInput.font
                 visible: !textInput.text && !textInput.activeFocus
                 horizontalAlignment: Text.AlignHCenter
@@ -68,13 +102,28 @@ Window {
             }
         }
 
+        // Текст ошибки под полем ввода
+        Text {
+            id: errorText
+            width: parent.width
+            height: 30
+            text: ""
+            color: '#ff0000'
+            font.pixelSize: 25
+            font.family: "Verdana"
+            font.weight: Font.DemiBold
+            horizontalAlignment: Text.AlignHCenter
+            visible: text !== ""
+            // УДАЛЕНО: controller.sendError.connect - это было неправильно
+        }
+
         // Растягивающийся элемент
         Item {
             width: parent.width
-            height: parent.height - titleText.height - inputWrapper.height - loginButton.height - 2*parent.spacing
+            height: parent.height - titleText.height - inputWrapper.height - errorText.height - loginButton.height - 3*parent.spacing
         }
 
-        // Кнопка "Войти" с новыми цветами
+        // Кнопка "Войти"
         Button {
             id: loginButton
             width: parent.width
@@ -85,9 +134,9 @@ Window {
             font.family: "Verdana"
 
             background: Rectangle {
-                color: parent.down ? "#4B0082" : "#6A5ACD"  // Индиго при нажатии, лавандовый в обычном состоянии
+                color: parent.down ? "#4B0082" : "#6A5ACD"
                 radius: 22
-                opacity: parent.enabled ? 1 : 0.3  // Полупрозрачная, если disabled
+                opacity: parent.enabled ? 1 : 0.3
             }
 
             contentItem: Text {
@@ -100,14 +149,16 @@ Window {
             }
 
             onClicked: {
-                console.log("Нажата кнопка 'Войти'")
-                controller.handleLogin(textInput.text)
+                console.log("Нажата кнопка 'Войти'");
+                console.log("Введенный текст:", textInput.text);
                 
-                console.log(textInput.text)
-                
-                // Можно добавить:
-                // loginButton.enabled = false // Блокировка кнопки после нажатия
-                // authLogic() // Вызов функции авторизации
+                // Проверяем, что controller существует перед вызовом
+                if (typeof controller !== 'undefined') {
+                    controller.handleLogin(textInput.text);
+                } else {
+                    console.error("Controller is not available!");
+                    errorText.text = "Ошибка: контроллер не доступен";
+                }
             }
         }
     }
