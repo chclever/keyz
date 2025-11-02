@@ -8,6 +8,22 @@ Rectangle {
     height: 500
     color: "#000000"
 
+    Component.onCompleted: {
+        // Подключаем сигналы контроллера
+        if (typeof controller !== 'undefined') {
+            controller.sendUserData.connect(function(data) {
+                console.log("[sendUserData]: data -> ", data);
+            });
+            controller.handleRenderMainDataFromUser("admin");
+            
+        } else {
+            console.error("Controller is not defined! (on main)");
+        }
+    
+    
+
+    }
+
     ListView {
         height: parent.height
         anchors.left: parent.left
