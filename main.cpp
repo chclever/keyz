@@ -26,6 +26,6 @@ int main(int argc, char *argv[]) {
 
     engine.rootContext()->setContextProperty("controller", controller);
     
-    engine.load(QUrl("qrc:/UI/auth.qml")); 
+    engine.load(QUrl("qrc:/UI/app.qml")); 
     return app.exec();
 }   
