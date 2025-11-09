@@ -8,11 +8,20 @@ Rectangle {
     height: 500
     color: "#000000"
 
+    property var userPasswords: ListModel {}
+
     Component.onCompleted: {
         // Подключаем сигналы контроллера
         if (typeof controller !== 'undefined') {
             controller.sendUserData.connect(function(data) {
                 console.log("[sendUserData]: data -> ", data);
+
+                userPasswords.clear()
+                
+                data.forEach(encryptedData => {
+                    userPasswords.append(encryptedData);
+                })
+
             });
             controller.handleRenderMainDataFromUser("admin");
             
@@ -20,9 +29,9 @@ Rectangle {
             console.error("Controller is not defined! (on main)");
         }
     
-    
-
     }
+
+    
 
     ListView {
         height: parent.height
@@ -34,24 +43,19 @@ Rectangle {
         anchors.topMargin: 5
         spacing: 5
 
-        model: ListModel {
-            ListElement {
-                name: "Steam"
-                account: "ProKiller2011"
-            }
-        }
+        model: userPasswords
 
         delegate: Rectangle {
             id: rectangle
-                    width: parent.width     // Задайте ширину Rectangle
-                    height: 60             //  Задайте высоту Rectangle
+                    width: parent.width     // Задайте ширину Rectangle  //
+                    height: 60             //  Задайте высоту Rectangle //
                     color: rectangle.hovered ? "#6A5ACD" : "#4B0082"
                     radius: 10
                     border.width: 0
 
                     Text {
                         color: "#ffffff"
-                        text: name + "  | " + account
+                        text: login + "  | " + platform
                         anchors.left: parent.left
                         anchors.right: parent.right
                         anchors.top: parent.top

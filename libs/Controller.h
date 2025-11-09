@@ -1,6 +1,9 @@
 #include "core.h"
+
 #include <QObject>
 #include <QString>
+#include <QVariantList>
+#include <QVariantMap>
 
 class Controller : public QObject
 {
@@ -11,11 +14,12 @@ public:
 
 private:
     Core &core;
+    QVariantList convertPasswordListToVariantList(std::vector<PasswordInfo> data);
 
 signals:
     void sendError(int code,const QString comment);
     void sendLogin(const QString login);
-    void sendUserData(std::vector<PasswordInfo> data); // name & platform 
+    void sendUserData(QVariantList data); // name & platform 
 
 public slots:
     void handleLogin(const QString &text);
