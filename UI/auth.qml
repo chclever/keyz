@@ -2,13 +2,13 @@ import QtQuick
 import QtQuick.Window
 import QtQuick.Controls 2.15
 
-Window {
-    id: window
+Rectangle {
+    id: auth
     width: 800
     height: 500
-    visible: true
     color: "#000000"
-    title: qsTr("AuthMenu | KeyzBeta")
+
+    property var stackView: null
 
     Component.onCompleted: {
         // Подключаем сигналы контроллера
@@ -20,19 +20,13 @@ Window {
 
             controller.sendLogin.connect(function(login){
                 console.log("Успешный вход:", login);
-                stackView.push("main.qml");
+                stackView.push("main.qml", { "userLogin" : login , "stackView" : stackView })
             })
             
         } else {
             console.error("Controller is not defined!");
         }
-    }
-
-    StackView {
-        id: stackView
-        anchors.fill: parent
-        initialItem: mainColumn
-    }
+    }   
 
     Column {
         id: mainColumn

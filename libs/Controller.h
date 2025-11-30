@@ -1,5 +1,5 @@
 #include "core.h"
-
+    
 #include <QObject>
 #include <QString>
 #include <QVariantList>

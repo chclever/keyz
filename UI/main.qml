@@ -9,36 +9,40 @@ Rectangle {
     color: "#000000"
 
     property var userPasswords: ListModel {}
+    property var stackView: null
+    property string userLogin: ""
 
     Component.onCompleted: {
         // Подключаем сигналы контроллера
+        console.log("Main page loaded for user:", userLogin);
+
         if (typeof controller !== 'undefined') {
             controller.sendUserData.connect(function(data) {
                 console.log("[sendUserData]: data -> ", data);
 
                 userPasswords.clear()
-                
+
                 data.forEach(encryptedData => {
                     userPasswords.append(encryptedData);
                 })
 
             });
-            controller.handleRenderMainDataFromUser("admin");
-            
+            controller.handleRenderMainDataFromUser(userLogin);
+
         } else {
             console.error("Controller is not defined! (on main)");
         }
-    
+
     }
 
-    
+
 
     ListView {
         height: parent.height
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.top: parent.top
-        anchors.leftMargin: 5
+        anchors.leftMargin: 75
         anchors.rightMargin: 5
         anchors.topMargin: 5
         spacing: 5
@@ -86,4 +90,27 @@ Rectangle {
                     }
         }
     }
+
+    Button {
+        id: button
+        width: 70
+        text: qsTr("❮")
+        anchors.left: parent.left
+        anchors.top: parent.top
+        anchors.bottom: parent.bottom
+        anchors.leftMargin: 0
+        anchors.topMargin: 0
+        anchors.bottomMargin: 0
+        icon.cache: false
+        font.underline: false
+        font.bold: false
+        font.italic: false
+        font.pointSize: 50
+        icon.color: "#ff0000"
+        
+        onClicked: {
+            stackView.pop("auth.qml", { "stackView" : stackView });
+        }
+    }
+
 }
