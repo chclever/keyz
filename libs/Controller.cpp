@@ -61,3 +61,25 @@ void Controller::handleRenderMainDataFromUser(const QString &login) {
     }
 
 }
+
+void Controller::handleRenderKeyDataFromUser(const QString userid, const QString login, const QString platform) {
+
+    GetRequest keyData;
+
+    keyData.userid = userid.toStdString();
+    keyData.login = login.toStdString();
+    keyData.platform = platform.toStdString();
+
+    auto data = this->core.get_user_password(keyData);
+    
+    if (data.code == 200) {
+        
+        std::cout << "[OK]: 'emit sendUserPassword(...);' | Code: 200" << std::endl;
+        
+        emit sendUserPassword(QString::fromStdString(data.password));
+
+    } else {
+        std::cout << "[error]: error while 'emit sendUserPassword(...);' | Code: " << data.code << std::endl;
+    }
+
+}

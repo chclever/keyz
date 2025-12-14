@@ -88,6 +88,16 @@ Rectangle {
                             duration: 150
                         }
                     }
+
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: {
+
+                            stackView.push("keyzScreen.qml", { "userid" : userLogin , "login": login, "platform": platform, "stackView" : stackView })
+
+                            console.log(login, platform)
+                        }
+                    }
         }
     }
 

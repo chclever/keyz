@@ -5,8 +5,31 @@ import QtQuick.Shapes 1.15
 
 Page {
     id: root
-    width: 600
-    height: 450
+    width: 800
+    height: 500
+
+    property var stackView: null
+
+    property var main_password: "";
+    
+    property var userid: "";
+    property var login: "";
+    property var platform: "";
+    
+    Component.onCompleted: {
+        // Подключаем сигналы контроллера
+        if (typeof controller !== 'undefined') {
+            controller.sendUserPassword.connect(function(data) {
+                console.log("[sendUserPassword]: data -> ", data);
+                main_password = data;
+            });
+
+            controller.handleRenderKeyDataFromUser( userid, login, platform );
+
+        } else {
+            console.error("Controller is not defined!");
+        }
+    }  
 
     Rectangle {
         anchors.fill: parent
@@ -40,6 +63,7 @@ Page {
                 Layout.fillWidth: true
                 font.pixelSize: 22
                 color: "white"
+                text: login
                 background: Rectangle {
                     radius: 8
                     color: "transparent"
@@ -82,6 +106,7 @@ Page {
                 Layout.fillWidth: true
                 font.pixelSize: 22
                 color: "white"
+                text: platform
                 background: Rectangle {
                     radius: 8
                     color: "transparent"
@@ -120,10 +145,10 @@ Page {
             }
 
             TextField {
-                echoMode: TextInput.Password
                 Layout.fillWidth: true
                 font.pixelSize: 22
                 color: "white"
+                text: main_password
                 background: Rectangle {
                     radius: 8
                     color: "transparent"
@@ -171,7 +196,9 @@ Page {
 
                 MouseArea {
                     anchors.fill: parent
-                    onClicked: console.log("Назад")
+                    onClicked: {
+                        stackView.pop("main.qml", { "userLogin": userid , "stackView" : stackView });
+                    }
                 }
             }
 

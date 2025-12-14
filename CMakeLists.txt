@@ -19,6 +19,7 @@ qt6_add_resources(
         UI/auth.qml
         UI/main.qml
         UI/app.qml
+        UI/keyzScreen.qml
 )
 target_link_libraries(keyz_out PRIVATE nlohmann_json::nlohmann_json Qt6::Quick)
 

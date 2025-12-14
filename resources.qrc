@@ -3,5 +3,6 @@
         <file>UI/auth.qml</file>
         <file>UI/main.qml</file>
         <file>UI/app.qml</file>
+	<file>UI/keyzScreen.qml</file>
     </qresource>
 </RCC>

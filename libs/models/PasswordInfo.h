@@ -9,4 +9,3 @@ struct PasswordInfo{
 };
 
 #endif
-    
