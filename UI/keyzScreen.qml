@@ -10,21 +10,26 @@ Page {
 
     property var stackView: null
 
-    property var main_password: "";
+    property var mainPassword: "";
     
     property var userid: "";
     property var login: "";
     property var platform: "";
-    
+    property var status: "create";
+
     Component.onCompleted: {
         // Подключаем сигналы контроллера
         if (typeof controller !== 'undefined') {
             controller.sendUserPassword.connect(function(data) {
                 console.log("[sendUserPassword]: data -> ", data);
-                main_password = data;
+                mainPassword = data;
             });
+            if (userid !== "" && login !== "" && platform !== "") {
 
-            controller.handleRenderKeyDataFromUser( userid, login, platform );
+                status = "edit"
+                controller.handleRenderKeyDataFromUser( userid, login, platform );
+            
+            }
 
         } else {
             console.error("Controller is not defined!");
@@ -60,6 +65,7 @@ Page {
             }
 
             TextField {
+                id: loginField
                 Layout.fillWidth: true
                 font.pixelSize: 22
                 color: "white"
@@ -69,6 +75,10 @@ Page {
                     color: "transparent"
                     border.color: "#A020F0"
                     border.width: 2
+                }
+
+                onTextChanged: {
+                    login = loginField.text
                 }
             }
 
@@ -103,6 +113,7 @@ Page {
             }
 
             TextField {
+                id: platformField
                 Layout.fillWidth: true
                 font.pixelSize: 22
                 color: "white"
@@ -112,6 +123,10 @@ Page {
                     color: "transparent"
                     border.color: "#A020F0"
                     border.width: 2
+                }
+             
+                onTextChanged: {
+                    platform = platformField.text
                 }
             }
 
@@ -145,15 +160,20 @@ Page {
             }
 
             TextField {
+                id: passwordField
                 Layout.fillWidth: true
                 font.pixelSize: 22
                 color: "white"
-                text: main_password
+                text: mainPassword
                 background: Rectangle {
                     radius: 8
                     color: "transparent"
                     border.color: "#A020F0"
                     border.width: 2
+                }
+
+                onTextChanged: {
+                    mainPassword = passwordField.text
                 }
             }
 
@@ -220,7 +240,8 @@ Page {
 
                 MouseArea {
                     anchors.fill: parent
-                    onClicked: console.log("Сохранено")
+                    // onClicked: console.log(mainPassword, login, platform)
+                    // тут надо дописать сохранение нового пароля в базу.
                 }
             }
 

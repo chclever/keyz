@@ -10,7 +10,7 @@ Rectangle {
 
     property var userPasswords: ListModel {}
     property var stackView: null
-    property string userLogin: ""
+    property string userLogin: "admin"
 
     Component.onCompleted: {
         // Подключаем сигналы контроллера
@@ -20,7 +20,7 @@ Rectangle {
             controller.sendUserData.connect(function(data) {
                 console.log("[sendUserData]: data -> ", data);
 
-                userPasswords.clear()
+                userPasswords.clear();
 
                 data.forEach(encryptedData => {
                     userPasswords.append(encryptedData);
@@ -44,7 +44,7 @@ Rectangle {
         anchors.top: parent.top
         anchors.leftMargin: 75
         anchors.rightMargin: 5
-        anchors.topMargin: 5
+        anchors.topMargin: 85
         spacing: 5
 
         model: userPasswords
@@ -121,6 +121,24 @@ Rectangle {
         onClicked: {
             stackView.pop("auth.qml", { "stackView" : stackView });
         }
+    }
+
+    Button {
+        id: button_add
+        width: 70
+        height: 70
+        text: qsTr("✚")
+        anchors.top: parent.top
+        anchors.right: parent.right
+        font.pointSize: 30
+        icon.color: "#ff0000"
+        anchors.topMargin: 5
+        anchors.rightMargin: 5
+
+        onClicked: {
+            stackView.push("keyzScreen.qml", { "stackView" : stackView })
+        }
+
     }
 
 }

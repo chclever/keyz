@@ -57,6 +57,9 @@ AddResponse Core::add_user_password(const AddRequest& data) {
             if ( user_data.at("login") == item.at("login") && user_data.at("platform") == item.at("platform")) {
                 item.at("password") = user_data.at("password");
                 is_ud_found = true;
+
+                r.code = 409;
+                r.comment = "[409] Conflict";
             }
         }
         if (!is_ud_found) {
