@@ -10,7 +10,7 @@ Rectangle {
 
     property var userPasswords: ListModel {}
     property var stackView: null
-    property string userLogin: "admin"
+    property string userLogin: ""
 
     Component.onCompleted: {
         // Подключаем сигналы контроллера
@@ -136,7 +136,7 @@ Rectangle {
         anchors.rightMargin: 5
 
         onClicked: {
-            stackView.push("keyzScreen.qml", { "stackView" : stackView })
+            stackView.push("keyzScreen.qml", { "userid": userLogin ,"stackView" : stackView })
         }
 
     }

@@ -83,3 +83,22 @@ void Controller::handleRenderKeyDataFromUser(const QString userid, const QString
     }
 
 }
+
+void Controller::handleUpdatePassword(const QString userid, const QString login, const QString mainPassword , const QString platform) {
+
+    AddRequest datas;
+
+    datas.userid = userid.toStdString();
+    datas.login = login.toStdString();
+    datas.platform = platform.toStdString();
+    datas.password = mainPassword.toStdString();
+
+    auto response = this->core.add_user_password(datas);
+
+    if (response.code == 200) {
+        emit sendUpdatePasswordSuccess();
+    } else {
+        emit sendUpdatePasswordError(QString::fromStdString(response.comment));
+    }
+
+}

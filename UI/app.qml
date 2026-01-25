@@ -13,6 +13,6 @@ Window {
     StackView {
         id: stackView
         anchors.fill: parent
-        initialItem: Qt.createComponent("keyzScreen.qml").createObject(stackView, {"stackView": stackView})
+        initialItem: Qt.createComponent("auth.qml").createObject(stackView, {"stackView": stackView})
     }
 }

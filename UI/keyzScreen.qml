@@ -24,6 +24,19 @@ Page {
                 console.log("[sendUserPassword]: data -> ", data);
                 mainPassword = data;
             });
+
+            console.log("userid: ", userid)
+
+            controller.sendUpdatePasswordSuccess.connect(function() {
+
+                console.log("[UpdatePassword]: Success");
+                stackView.pop("main.qml", { "userLogin" : userid , "stackView" : stackView });
+                // баг (не обновляется экран при переходе).
+
+                // добавить обработку error.
+
+            });
+
             if (userid !== "" && login !== "" && platform !== "") {
 
                 status = "edit"
@@ -240,8 +253,12 @@ Page {
 
                 MouseArea {
                     anchors.fill: parent
-                    // onClicked: console.log(mainPassword, login, platform)
-                    // тут надо дописать сохранение нового пароля в базу.
+                    onClicked: { 
+                        
+                        console.log(userid, login, mainPassword, platform)
+                        controller.handleUpdatePassword(userid, login, mainPassword, platform);
+
+                    }
                 }
             }
 
