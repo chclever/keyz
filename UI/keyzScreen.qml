@@ -30,10 +30,21 @@ Page {
             controller.sendUpdatePasswordSuccess.connect(function() {
 
                 console.log("[UpdatePassword]: Success");
-                stackView.pop("main.qml", { "userLogin" : userid , "stackView" : stackView });
+                try { 
+                    controller.handleRenderMainDataFromUser(userid); // refresh
+                    stackView.pop("main.qml", { "userLogin" : userid , "stackView" : stackView });
+                } catch(e) {
+                    console.log(e)
+                }
                 // баг (не обновляется экран при переходе).
 
                 // добавить обработку error.
+
+            });
+
+            controller.sendUpdatePasswordError.connect(function(comment) {
+                console.log("'sendUpdatePasswordError': " + comment)
+                errorText.text = "Ошибка: " + comment;
 
             });
 
@@ -47,7 +58,9 @@ Page {
         } else {
             console.error("Controller is not defined!");
         }
-    }  
+    }
+
+
 
     Rectangle {
         anchors.fill: parent
@@ -92,6 +105,10 @@ Page {
 
                 onTextChanged: {
                     login = loginField.text
+                                    
+                    if (errorText.text !== "") {
+                        errorText.text = "";
+                    }
                 }
             }
 
@@ -139,6 +156,11 @@ Page {
                 }
              
                 onTextChanged: {
+                    
+                    if (errorText.text !== "") {
+                        errorText.text = "";
+                    }
+
                     platform = platformField.text
                 }
             }
@@ -186,7 +208,13 @@ Page {
                 }
 
                 onTextChanged: {
+                                    
+                    if (errorText.text !== "") {
+                        errorText.text = "";
+                    }
+
                     mainPassword = passwordField.text
+                
                 }
             }
 
@@ -235,6 +263,20 @@ Page {
                 }
             }
 
+            Text {
+                id: errorText
+                width: parent.width
+                height: 30
+                text: ""
+                color: '#ff0000'
+                font.pixelSize: 25
+                font.family: "Verdana"
+                font.weight: Font.DemiBold
+                horizontalAlignment: Text.AlignHCenter
+                visible: text !== ""
+                // УДАЛЕНО: controller.sendError.connect - это было неправильно
+            }
+
             // Сохранить
             Rectangle {
                 Layout.fillWidth: true
@@ -254,10 +296,8 @@ Page {
                 MouseArea {
                     anchors.fill: parent
                     onClicked: { 
-                        
                         console.log(userid, login, mainPassword, platform)
                         controller.handleUpdatePassword(userid, login, mainPassword, platform);
-
                     }
                 }
             }

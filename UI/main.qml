@@ -29,13 +29,12 @@ Rectangle {
             });
             controller.handleRenderMainDataFromUser(userLogin);
 
+
         } else {
             console.error("Controller is not defined! (on main)");
         }
 
     }
-
-
 
     ListView {
         height: parent.height
@@ -51,8 +50,8 @@ Rectangle {
 
         delegate: Rectangle {
             id: rectangle
-                    width: parent.width     // Задайте ширину Rectangle  //
-                    height: 60             //  Задайте высоту Rectangle //
+                    width: parent.width
+                    height: 60
                     color: rectangle.hovered ? "#6A5ACD" : "#4B0082"
                     radius: 10
                     border.width: 0
