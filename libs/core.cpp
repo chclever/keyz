@@ -144,3 +144,53 @@ GetPasswdListResponse Core::get_user_data(std::string userid) {
     
     return r; 
 }   
+
+UpdateResponse Core::update_user_password(const UpdateRequest& data) {
+    
+    UpdateResponse r;
+
+    r.code = 200;
+    r.comment = "Successful"; 
+
+    json current_data;
+
+    try {
+        current_data = this->read_base();
+    } catch (const std::exception& e) {
+        r.code = 501;
+        r.comment = e.what();
+        return r;
+    }
+
+    if ( current_data[data.userid].size() == 0 ) {
+        r.code = 404;
+        r.comment = "Not found";
+    }
+
+
+    std::string id = data.login + data.password + data.platform;
+    std::cout <<  "'update user password' id -> " << id << std::endl;
+
+    for (auto &item : current_data[data.userid]) {
+
+        std::string item_id = item.at("login").get<std::string>() + item.at("password").get<std::string>() + item.at("platform").get<std::string>();
+        std::cout <<  "'update user password' item id -> " << item_id << " | " << id << std::endl;
+
+        if (id == item_id) {
+            r.code = 409;
+            r.comment = "already exist error";
+            return r;
+        }
+
+    };
+     
+    for (auto &item : current_data[data.userid]) {
+        if (item.at("login").get<std::string>() + item.at("platform").get<std::string>() == data.login + data.platform) {
+            // Обновление у массива
+            std::cout << "'update_user_password': OK." << std::endl;
+        }
+    }
+
+    return r;
+
+}

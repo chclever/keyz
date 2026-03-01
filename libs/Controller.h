@@ -36,3 +36,4 @@ public slots:   // QML -> C++
     void handleRenderKeyDataFromUser(const QString userid, const QString login, const QString platform);
     void handleUpdatePassword(const QString userid, const QString login, const QString mainPassword , const QString platform);
 };
+ 

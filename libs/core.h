@@ -16,6 +16,10 @@ struct GetResponse : ResponseTemplate, Password {};
 struct AddResponse : ResponseTemplate {};
 struct AddRequest : User, Password {};  
 
+struct UpdateRequest : User, Password {};
+struct UpdateResponse  : ResponseTemplate {};
+
+
 struct GetPasswdListResponse : ResponseTemplate {
     std::vector<PasswordInfo> password_data; // Все строки в файле.
 };
@@ -24,7 +28,10 @@ class Core {
 public:
     AddResponse add_user_password(const AddRequest& data);                           //     Добавления пароля в базу.                //
     GetResponse get_user_password(const GetRequest& data);                          //      Отправка пароля пользователю (дехеш).   //
-    GetPasswdListResponse get_user_data(std::string userid);                       //       Получае(Список логинов и платформ.)    //\
+    GetPasswdListResponse get_user_data(std::string userid);                       //       Получае(Список логинов и платформ.)    // 
+    
+    UpdateResponse update_user_password(const UpdateRequest& data);
+      
 private:
     nlohmann::json read_base();
 };
