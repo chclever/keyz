@@ -86,6 +86,26 @@ void Controller::handleRenderKeyDataFromUser(const QString userid, const QString
 
 void Controller::handleUpdatePassword(const QString userid, const QString login, const QString mainPassword , const QString platform) {
 
+    UpdateRequest datas;
+
+    datas.userid = userid.toStdString();
+    datas.login = login.toStdString();
+    datas.platform = platform.toStdString();
+    datas.password = mainPassword.toStdString();
+
+    auto response = this->core.update_user_password(datas);
+
+    std::cout << "------------------------- RESPONSE: " << response.comment << " -> " <<  response.code << std::endl;
+    if (response.code == 200) {
+        emit sendUpdatePasswordSuccess();
+    } else {
+        emit sendUpdatePasswordError(QString::fromStdString(response.comment));
+    }
+
+}
+
+void Controller::handleCreatePassword(const QString userid, const QString login, const QString mainPassword , const QString platform) {
+
     AddRequest datas;
 
     datas.userid = userid.toStdString();
@@ -96,9 +116,9 @@ void Controller::handleUpdatePassword(const QString userid, const QString login,
     auto response = this->core.add_user_password(datas);
 
     if (response.code == 200) {
-        emit sendUpdatePasswordSuccess();
+        emit sendCreatePasswordSuccess();
     } else {
-        emit sendUpdatePasswordError(QString::fromStdString(response.comment));
+        emit sendCreatePasswordError(QString::fromStdString(response.comment));
     }
 
 }

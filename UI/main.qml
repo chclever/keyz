@@ -19,7 +19,7 @@ Rectangle {
         if (typeof controller !== 'undefined') {
             controller.sendUserData.connect(function(data) {
                 console.log("[sendUserData]: data -> ", data);
-
+        
                 userPasswords.clear();
 
                 data.forEach(encryptedData => {
@@ -92,7 +92,7 @@ Rectangle {
                         anchors.fill: parent
                         onClicked: {
 
-                            stackView.push("keyzScreen.qml", { "userid" : userLogin , "login": login, "platform": platform, "stackView" : stackView })
+                            stackView.push("keyzScreen.qml", { "userid" : userLogin , "login": login, "platform": platform, "stackView" : stackView, "status": "edit" })
 
                             console.log(login, platform)
                         }
@@ -135,7 +135,7 @@ Rectangle {
         anchors.rightMargin: 5
 
         onClicked: {
-            stackView.push("keyzScreen.qml", { "userid": userLogin ,"stackView" : stackView })
+            stackView.push("keyzScreen.qml", { "userid": userLogin ,"stackView" : stackView , "status": "create" })
         }
 
     }

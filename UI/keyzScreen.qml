@@ -48,10 +48,9 @@ Page {
 
             });
 
-            if (userid !== "" && login !== "" && platform !== "") {
-
-                status = "edit"
-                controller.handleRenderKeyDataFromUser( userid, login, platform );
+            if (status == "edit") {
+                console.log("'status' = edit")
+                // controller.handleRenderKeyDataFromUser( userid, login, platform );
             
             }
 
@@ -183,6 +182,8 @@ Page {
         }
 
         // ПАРОЛЬ
+        // TO DO: научиться получать пороль, протестить редактированиеподключить реакцию qml на создание и редактирование, пофиксить фото кота и refresh list. 
+
         RowLayout {
             spacing: 20
             Layout.fillWidth: true
@@ -297,7 +298,8 @@ Page {
                     anchors.fill: parent
                     onClicked: { 
                         console.log(userid, login, mainPassword, platform)
-                        controller.handleUpdatePassword(userid, login, mainPassword, platform);
+                        if (status == "edit") { controller.handleUpdatePassword(userid, login, mainPassword, platform); }
+                        else if (status == "create") { controller.handleCreatePassword(userid, login, mainPassword, platform); }
                     }
                 }
             }

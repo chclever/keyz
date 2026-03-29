@@ -29,11 +29,14 @@ signals:        // C++ -> QML
     void sendUserPassword(const QString password);
     void sendUpdatePasswordSuccess();
     void sendUpdatePasswordError(const QString comment);
+    void sendCreatePasswordSuccess();
+    void sendCreatePasswordError(const QString comment);
 
 public slots:   // QML -> C++  
     void handleLogin(const QString &text);
     void handleRenderMainDataFromUser(const QString &login); // принимаем логин
     void handleRenderKeyDataFromUser(const QString userid, const QString login, const QString platform);
     void handleUpdatePassword(const QString userid, const QString login, const QString mainPassword , const QString platform);
+    void handleCreatePassword(const QString userid, const QString login, const QString mainPassword , const QString platform);
 };
  
