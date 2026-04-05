@@ -50,7 +50,7 @@ Page {
 
             if (status == "edit") {
                 console.log("'status' = edit")
-                // controller.handleRenderKeyDataFromUser( userid, login, platform );
+                controller.handleRenderKeyDataFromUser( userid, login, platform );
             
             }
 
@@ -298,8 +298,13 @@ Page {
                     anchors.fill: parent
                     onClicked: { 
                         console.log(userid, login, mainPassword, platform)
-                        if (status == "edit") { controller.handleUpdatePassword(userid, login, mainPassword, platform); }
-                        else if (status == "create") { controller.handleCreatePassword(userid, login, mainPassword, platform); }
+                        if (status == "edit") { 
+                            controller.handleUpdatePassword(userid, login, mainPassword, platform); 
+                            console.log("[ --- EDIT --- ] ->>" + userid, login, platform, mainPassword);
+                        }
+                        else if (status == "create") { 
+                            controller.handleCreatePassword(userid, login, mainPassword, platform);
+                        }
                     }
                 }
             }

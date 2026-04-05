@@ -148,12 +148,20 @@ GetPasswdListResponse Core::get_user_data(std::string userid) {
 UpdateResponse Core::update_user_password(const UpdateRequest& data) {
     
     UpdateResponse r;
+    
+    json current_data;
+    std::ofstream user_db_write("base.json");
 
     r.code = 200;
-    r.comment = "Successful"; 
+    r.comment = "Successful";
 
-    json current_data;
+    if (!user_db_write.is_open()) {
+        r.code = 502;
+        r.comment = "Error write data";
+        return r;
+    }
 
+    
     try {
         current_data = this->read_base();
     } catch (const std::exception& e) {
@@ -186,10 +194,17 @@ UpdateResponse Core::update_user_password(const UpdateRequest& data) {
      
     for (auto &item : current_data[data.userid]) {
         if (item.at("login").get<std::string>() + item.at("platform").get<std::string>() == data.login + data.platform) {
-            // Обновление у массива
+
+            // Обновить json
+
+
+
             std::cout << "'update_user_password': OK." << std::endl;
         }
     }
+
+    user_db_write << current_data.dump(4) << std::endl;
+    user_db_write.close();
 
     return r;
 

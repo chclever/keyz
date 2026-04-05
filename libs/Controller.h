@@ -25,7 +25,7 @@ private:
 signals:        // C++ -> QML
     void sendError(int code,const QString comment);
     void sendLogin(const QString login);
-    void sendUserData(QVariantList data); // name & platform 
+    void sendUserData(QVariantList data); // name & platform (get_user_data)
     void sendUserPassword(const QString password);
     void sendUpdatePasswordSuccess();
     void sendUpdatePasswordError(const QString comment);
