@@ -191,13 +191,26 @@ UpdateResponse Core::update_user_password(const UpdateRequest& data) {
         }
 
     };
-     
-    for (auto &item : current_data[data.userid]) {
+    
+
+    // FIX qrc:/UI/keyzScreen.qml:47: TypeError: Value is null and could not be converted to an object
+    // qml: 'sendUpdatePasswordError': [json.exception.parse_error.101] parse error at line 1, column 1: attempting to parse an empty input; check that your input string or stream contains the expected JSON
+    // qml: [ --- EDIT --- ] ->>admin admin telegram 12q32rw31
+    
+    for (int i = 0 ; i = current_data[data.userid].size() ; i++) {
+        auto item = current_data[data.userid][i]; 
+        
         if (item.at("login").get<std::string>() + item.at("platform").get<std::string>() == data.login + data.platform) {
 
-            // Обновить json
+            // Обновляем json
+                    
+            json user_data = {
+                {"platform",    data.platform},
+                {"login",       data.login},
+                {"password",    data.password}
+            };
 
-
+            current_data[data.userid][i] = user_data;
 
             std::cout << "'update_user_password': OK." << std::endl;
         }
