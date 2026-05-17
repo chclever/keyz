@@ -8,7 +8,12 @@ json Core::read_base() {
     json current_data;
 
     if (user_db_read.is_open()) {
-        current_data = json::parse(user_db_read);
+
+        std::ostringstream ss;
+        ss << user_db_read.rdbuf();
+        std::string str = ss.str();
+        std::cout << "[ - Core::read_base() DEBUG - ]: "  << str << std::endl;
+        current_data = json::parse(str);
         
         user_db_read.close();
     } else {
@@ -150,18 +155,10 @@ UpdateResponse Core::update_user_password(const UpdateRequest& data) {
     UpdateResponse r;
     
     json current_data;
-    std::ofstream user_db_write("base.json");
 
     r.code = 200;
     r.comment = "Successful";
 
-    if (!user_db_write.is_open()) {
-        r.code = 502;
-        r.comment = "Error write data";
-        return r;
-    }
-
-    
     try {
         current_data = this->read_base();
     } catch (const std::exception& e) {
@@ -192,18 +189,11 @@ UpdateResponse Core::update_user_password(const UpdateRequest& data) {
 
     };
     
-
-    // FIX qrc:/UI/keyzScreen.qml:47: TypeError: Value is null and could not be converted to an object
-    // qml: 'sendUpdatePasswordError': [json.exception.parse_error.101] parse error at line 1, column 1: attempting to parse an empty input; check that your input string or stream contains the expected JSON
-    // qml: [ --- EDIT --- ] ->>admin admin telegram 12q32rw31
-    
     for (int i = 0 ; i = current_data[data.userid].size() ; i++) {
         auto item = current_data[data.userid][i]; 
         
         if (item.at("login").get<std::string>() + item.at("platform").get<std::string>() == data.login + data.platform) {
 
-            // Обновляем json
-                    
             json user_data = {
                 {"platform",    data.platform},
                 {"login",       data.login},
@@ -214,6 +204,14 @@ UpdateResponse Core::update_user_password(const UpdateRequest& data) {
 
             std::cout << "'update_user_password': OK." << std::endl;
         }
+    }
+
+    std::ofstream user_db_write("base.json");
+    
+    if (!user_db_write.is_open()) {
+        r.code = 502;
+        r.comment = "Error write data";
+        return r;
     }
 
     user_db_write << current_data.dump(4) << std::endl;
